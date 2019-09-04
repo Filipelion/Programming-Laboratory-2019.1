@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 # implementation of welsh_powell algorithm
 def welsh_powell(G):
     # sorting the nodes based on it's valency
-    node_list = sorted(G.nodes(), key=lambda x: list(G.neighbors(x)))
+    node_list = sorted(G.nodes(), key=lambda x: tuple(G.neighbors(x)))
     col_val = {}  # dictionary to store the colors assigned to each node
     col_val[node_list[0]] = 0  # assign the first color to the first node
     # Assign colors to remaining N-1 nodes
@@ -22,15 +22,15 @@ def welsh_powell(G):
             if available[clr] == True:
                 break
         col_val[node] = clr
-    print(col_val)
+    #print(col_val)
     return col_val
 
 
 # takes input from the file and creates a undirected graph
 def CreateGraph():
-    G = nx.Graph()
+    G = nx.Graph() #Cria uma lista
     f = open('input.txt')
-    n = int(f.readline())
+    n = int(f.readline()) #fist number
     for i in range(n):
         graph_edge_list = f.readline().split()
         G.add_edge(graph_edge_list[0], graph_edge_list[1])
