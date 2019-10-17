@@ -18,7 +18,6 @@ def dijkstra_algorithm(matrix_adj, start):
     L = [(0, start)]  # make a list starting with zero (cost, vertice)
 
     while L != []:
-        print(D)
         cost, current_vertice = L.pop(0)
         for neighbor in range(len(matrix_adj)):
             if matrix_adj[current_vertice][neighbor]:
@@ -31,27 +30,7 @@ def dijkstra_algorithm(matrix_adj, start):
 
 if __name__ == "__main__":
     map_ilhas = create_graph()
-
-    list_servidor = ((map_ilhas[0][map_ilhas[-1] - 1])[:])
-    list_servidor.sort()
-
-    for i in list_servidor:
-        if i > 0:
-            smaller_ping = i
-            break
-
     tracks = dijkstra_algorithm(map_ilhas[0], map_ilhas[-1]-1)
-    #del tracks.values[map_ilhas[-1]-1]
+    del tracks[str(map_ilhas[-1]-1)]
+    print(max(tracks.values()) - min(tracks.values()))
 
-    #print(max(tracks.values()) - smaller_ping)
-    dist = tracks
-    INFTO = 1123456789
-    menor = INFTO
-    maior = -1
-    for u in dist.values():
-        d = u
-        if d != 0:
-            menor = min(menor, d)
-        if d != INFTO:
-            maior = max(maior, d)
-    print(maior - menor)
