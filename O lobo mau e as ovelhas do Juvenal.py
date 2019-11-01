@@ -1,3 +1,6 @@
+import sys
+sys.setrecursionlimit(100000) # alteração no tempo de recursão
+
 class Matrix:
     def __init__(self, num_rows, num_columns):
         self.__num_rows = num_rows
