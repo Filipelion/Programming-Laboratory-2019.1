@@ -20,36 +20,6 @@ class Matrix:
 
         return self.__matrix
 
-
-def bloody_night(pos):
-    v, k = 0, 0
-
-    if pos in forPass:
-
-        if forPass[pos] == 'k':
-            k += 1
-        elif forPass[pos] == 'v':
-            v += 1
-
-        del forPass[pos]
-        i, j = pos
-
-        wolf, sheep = bloody_night((i - 1, j))
-        v += wolf
-        k += sheep
-        wolf, sheep = bloody_night((i + 1, j))
-        v += wolf
-        k += sheep
-        wolf, sheep = bloody_night((i, j - 1))
-        v += wolf
-        k += sheep
-        wolf, sheep = bloody_night((i, j + 1))
-        v += wolf
-        k += sheep
-        return v, k
-    else:
-        return v, k
-
 def split_to_str(sentence):
     split_value = []
     for c in sentence:
@@ -73,35 +43,48 @@ def split_to_int(sentence):
     return split_value
 
 
+def bloody_night_rec(i, j):
+    global sheeps, wolfs
+
+    try:
+        if matrix[i][j] == '#' or matrix[i][j] == 0:
+            return False
+
+        elif matrix[i][j] == 'k':
+            sheeps += 1
+
+        elif matrix[i][j] == 'v':
+            wolfs += 1
+
+    except IndexError:
+        return
+
+    matrix[i][j] = 0
+    bloody_night_rec(i - 1, j)
+    bloody_night_rec(i, j + 1)
+    bloody_night_rec(i + 1, j)
+    bloody_night_rec(i, j - 1)
+
+
 # main function
 if __name__ == "__main__":
-    global matrix
     row, col = split_to_int(input())
+    matrix = []
     m2 = Matrix(row, col)
     m2.insert_elements()
     matrix = m2.__repr__()
 
+    total_sheeps, total_wolfs = 0, 0
+    sheeps, wolfs = 0, 0
 
+    for x in range(row):
+        for y in range(col):
+            if matrix[x][y] != '#' or matrix[x][y] != 0:
+                sheeps, wolfs = 0, 0
+                bloody_night_rec(x, y)
+                if sheeps > wolfs:
+                    total_sheeps += sheeps
+                else:
+                    total_wolfs += wolfs
 
-
-    forPass = {}
-
-    for i in range(row):
-        for j in range(col):
-            dot = matrix[i][j]
-            if dot != '#':
-                forPass[(i, j)] = dot
-
-    total_wolfs = 0
-    total_sheeps = 0
-
-    while len(forPass) != 0:
-        key = [x for x in forPass.keys()][0]
-
-        v, k = bloody_night(key)
-
-        if v >= k:
-            total_wolfs += v
-        else:
-            total_sheeps += k
     print(total_sheeps, total_wolfs)
