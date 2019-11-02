@@ -20,13 +20,6 @@ class Matrix:
 
         return self.__matrix
 
-def split_to_str(sentence):
-    split_value = []
-    for c in sentence:
-        split_value += [c]
-
-    return split_value
-
 
 def split_to_int(sentence):
     split_value = []
@@ -69,7 +62,6 @@ def bloody_night_rec(i, j):
 # main function
 if __name__ == "__main__":
     row, col = split_to_int(input())
-    matrix = []
     m2 = Matrix(row, col)
     m2.insert_elements()
     matrix = m2.__repr__()
